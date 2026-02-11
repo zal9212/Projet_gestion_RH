@@ -3,6 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+<<<<<<< HEAD
     <groupId>com.plateforme</groupId>
     <artifactId>plateforme-rh</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -17,10 +18,19 @@
         <module>module-conges</module>
         <module>module-absences-notifications</module>
     </modules>
+=======
+    <groupId>com.example</groupId>
+    <artifactId>module-absences-notifications</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>absences-notifications</name>
+>>>>>>> ef9fe5f8d53573ef47a90b50fc8da8bdf32e0f86
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
+<<<<<<< HEAD
         <jakartaee.version>10.0.0</jakartaee.version>
     </properties>
 
@@ -67,6 +77,45 @@
     </dependencyManagement>
 
     <build>
+=======
+    </properties>
+
+    <dependencies>
+        <!-- Java EE 8 API -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- MySQL Connector -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+
+        <!-- JUnit 4 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>absences-notifications</finalName>
+>>>>>>> ef9fe5f8d53573ef47a90b50fc8da8bdf32e0f86
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -76,6 +125,17 @@
                     <release>21</release>
                 </configuration>
             </plugin>
+<<<<<<< HEAD
+=======
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+>>>>>>> ef9fe5f8d53573ef47a90b50fc8da8bdf32e0f86
         </plugins>
     </build>
 </project>
