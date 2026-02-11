@@ -1,0 +1,79 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------< com.example:module-absences-notifications >--------------
+[INFO] Building absences-notifications 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ module-absences-notifications ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ module-absences-notifications ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 9 source files with javac [debug release 21] to target\classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ module-absences-notifications ---
+[INFO] skip non existing resourceDirectory C:\Users\USER\Desktop\Cours LTI3-DAR\Cours java EE\Projet-groupe-gestion-rh\Projet JEE\module-absences-notifications\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ module-absences-notifications ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 1 source file with javac [debug release 21] to target\test-classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[5,19] package org.mockito does not exist
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[6,19] package org.mockito does not exist
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[7,19] package org.mockito does not exist
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[15,26] package org.mockito does not exist
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[19,6] cannot find symbol
+  symbol:   class Mock
+  location: class NotificationServiceTest
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[22,6] cannot find symbol
+  symbol:   class Mock
+  location: class NotificationServiceTest
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[25,6] cannot find symbol
+  symbol:   class InjectMocks
+  location: class NotificationServiceTest
+[INFO] 7 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.866 s
+[INFO] Finished at: 2026-02-10T16:55:39Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:testCompile (default-testCompile) on project module-absences-notifications: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[5,19] package org.mockito does not exist
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[6,19] package org.mockito does not exist
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[7,19] package org.mockito does not exist
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[15,26] package org.mockito does not exist
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[19,6] cannot find symbol
+[ERROR]   symbol:   class Mock
+[ERROR]   location: class NotificationServiceTest
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[22,6] cannot find symbol
+[ERROR]   symbol:   class Mock
+[ERROR]   location: class NotificationServiceTest
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/test/java/NotificationServiceTest.java:[25,6] cannot find symbol
+[ERROR]   symbol:   class InjectMocks
+[ERROR]   location: class NotificationServiceTest
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

@@ -1,0 +1,69 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------< com.example:module-absences-notifications >--------------
+[INFO] Building absences-notifications 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ module-absences-notifications ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ module-absences-notifications ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 9 source files with javac [debug release 21] to target\classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[4,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[6,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[7,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[8,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[10,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[11,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[12,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[4,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[6,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[8,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[9,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[10,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[11,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[12,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[13,1] class, interface, enum, or record expected
+[INFO] 15 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.063 s
+[INFO] Finished at: 2026-02-10T16:54:27Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project module-absences-notifications: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[4,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[6,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[7,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[8,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[10,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[11,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/entities/Notification.java:[12,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[4,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[6,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[8,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[9,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[10,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[11,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[12,1] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/Desktop/Cours LTI3-DAR/Cours java EE/Projet-groupe-gestion-rh/Projet JEE/module-absences-notifications/src/main/java/com/plateforme/absences/services/TypeAbsenceService.java:[13,1] class, interface, enum, or record expected
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

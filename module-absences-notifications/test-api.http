@@ -1,0 +1,133 @@
+### Variables
+@baseUrl = http://localhost:8080/absences-notifications/api
+@userId = 4
+
+### ==========================================
+### TYPES D'ABSENCES
+### ==========================================
+
+### 1. Récupérer tous les types d'absences
+GET {{baseUrl}}/absences/types
+Accept: application/json
+
+### 2. Récupérer un type par ID
+GET {{baseUrl}}/absences/types/1
+Accept: application/json
+
+### 3. Créer un nouveau type
+POST {{baseUrl}}/absences/types
+Content-Type: application/json
+
+{
+  "nom": "Congé parental",
+  "description": "Congé pour s'occuper d'un enfant",
+  "justificationRequise": true
+}
+
+### ==========================================
+### ABSENCES
+### ==========================================
+
+### 4. Récupérer toutes les absences
+GET {{baseUrl}}/absences
+Accept: application/json
+
+### 5. Récupérer une absence par ID
+GET {{baseUrl}}/absences/1
+Accept: application/json
+
+### 6. Absences d'un employé
+GET {{baseUrl}}/absences/employe/{{userId}}
+Accept: application/json
+
+### 7. Absences sur une période
+GET {{baseUrl}}/absences/periode?debut=2026-01-01&fin=2026-12-31
+Accept: application/json
+
+### 8. Absences non justifiées
+GET {{baseUrl}}/absences/non-justifiees
+Accept: application/json
+
+### 9. Créer une nouvelle absence
+POST {{baseUrl}}/absences
+Content-Type: application/json
+
+{
+  "employeId": 4,
+  "typeAbsenceId": 1,
+  "dateAbsence": "2026-02-12",
+  "heureDebut": "08:00:00",
+  "heureFin": "17:00:00",
+  "dureeHeures": 8.0,
+  "motif": "Grippe saisonnière",
+  "enregistrePar": 2
+}
+
+### 10. Modifier une absence
+PUT {{baseUrl}}/absences/1
+Content-Type: application/json
+
+{
+  "motif": "Grippe confirmée par médecin",
+  "justifiee": true
+}
+
+### 11. Justifier une absence
+PUT {{baseUrl}}/absences/1/justifier
+Content-Type: application/json
+
+{
+  "documentPath": "/uploads/certificat_medical_2026_02_12.pdf"
+}
+
+### 12. Supprimer une absence
+DELETE {{baseUrl}}/absences/1
+Accept: application/json
+
+### ==========================================
+### NOTIFICATIONS
+### ==========================================
+
+### 13. Mes notifications
+GET {{baseUrl}}/notifications?userId={{userId}}
+Accept: application/json
+
+### 14. Mes notifications non lues
+GET {{baseUrl}}/notifications/non-lues?userId={{userId}}
+Accept: application/json
+
+### 15. Nombre de notifications non lues
+GET {{baseUrl}}/notifications/count-non-lues?userId={{userId}}
+Accept: application/json
+
+### 16. Détails d'une notification
+GET {{baseUrl}}/notifications/1
+Accept: application/json
+
+### 17. Statistiques notifications
+GET {{baseUrl}}/notifications/statistiques?userId={{userId}}
+Accept: application/json
+
+### 18. Créer une notification
+POST {{baseUrl}}/notifications
+Content-Type: application/json
+
+{
+  "destinataireId": 4,
+  "expediteurId": 2,
+  "type": "INFO",
+  "sujet": "Rappel importante",
+  "message": "N'oubliez pas de justifier vos absences avant la fin du mois"
+}
+
+### 19. Marquer une notification comme lue
+PUT {{baseUrl}}/notifications/1/lire
+Accept: application/json
+
+### 20. Tout marquer comme lu
+PUT {{baseUrl}}/notifications/tout-lire?userId={{userId}}
+Accept: application/json
+
+### 21. Supprimer une notification
+DELETE {{baseUrl}}/notifications/1
+Accept: application/json

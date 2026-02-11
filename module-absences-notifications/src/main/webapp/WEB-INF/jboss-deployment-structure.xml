@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+    <deployment>
+        <dependencies>
+            <!-- WildFly 39 utilise Artemis (Jakarta Messaging), pas besoin de hornetq -->
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>
