@@ -7,8 +7,10 @@ import com.plateforme.absences.services.NotificationService;
 
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -33,6 +35,9 @@ public class NotificationResource {
     
     private static final Logger LOGGER = Logger.getLogger(NotificationResource.class.getName());
     
+    @Context
+    private SecurityContext securityContext;
+
     @EJB
     private NotificationService notificationService;
     
@@ -48,6 +53,16 @@ public class NotificationResource {
             if (userId == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
                     .entity(ApiResponse.error("Le paramètre userId est obligatoire"))
+                    .build();
+            }
+
+            // Vérification de sécurité : un utilisateur ne peut voir que ses propres notifications
+            // sauf s'il est manager ou admin
+            String principalName = securityContext.getUserPrincipal() != null ? securityContext.getUserPrincipal().getName() : null;
+            if (principalName != null && !principalName.equals(userId.toString()) && 
+                !securityContext.isUserInRole("MANAGER") && !securityContext.isUserInRole("ADMIN")) {
+                return Response.status(Response.Status.FORBIDDEN)
+                    .entity(ApiResponse.error("Accès refusé : vous ne pouvez consulter que vos propres notifications"))
                     .build();
             }
             
@@ -79,6 +94,15 @@ public class NotificationResource {
             if (userId == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
                     .entity(ApiResponse.error("Le paramètre userId est obligatoire"))
+                    .build();
+            }
+
+            // Vérification de sécurité
+            String principalName = securityContext.getUserPrincipal() != null ? securityContext.getUserPrincipal().getName() : null;
+            if (principalName != null && !principalName.equals(userId.toString()) && 
+                !securityContext.isUserInRole("MANAGER") && !securityContext.isUserInRole("ADMIN")) {
+                return Response.status(Response.Status.FORBIDDEN)
+                    .entity(ApiResponse.error("Accès refusé : vous ne pouvez consulter que vos propres notifications"))
                     .build();
             }
             

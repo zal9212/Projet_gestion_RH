@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centre de Notifications - HR Solide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .unread-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--brand-accent);
+            border-radius: 50%;
+            margin-left: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo"><i class="fas fa-shield-alt"></i> HR • SOLIDE</a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="mes-absences.html">Mes Absences</a>
+            <a href="enregistrer-absence.html">Enregistrer</a>
+            <a href="notifications.html" class="active">Notifications <span id="notification-badge"
+                    class="badge badge-error" style="display:none;"></span></a>
+            <a href="statistiques-absences.html">Statistiques</a>
+        </div>
+        <div id="user-info" style="font-weight: 600; color: var(--brand-primary);"></div>
+    </nav>
+
+    <div class="container" style="max-width: 900px;">
+        <header class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1>Centre de Notifications</h1>
+                <p>Restez au courant des mises à jour de vos demandes.</p>
+            </div>
+            <button class="btn btn-outline" id="mark-all-read"><i class="fas fa-check-double"></i> Tout marquer comme
+                lu</button>
+        </header>
+
+        <div class="card" style="padding: 0;">
+            <div id="notifications-list">
+                <div style="padding: 40px; text-align: center; color: var(--slate-400);">Chargement des notifications...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = Utils.getCurrentUser();
+            document.getElementById('user-info').textContent = user.name + " (" + user.role + ")";
+            NotificationBadge.init();
+
+            const listElement = document.getElementById('notifications-list');
+            const markAllBtn = document.getElementById('mark-all-read');
+
+            async function loadNotifications() {
+                try {
+                    const notifications = await NotificationAPI.getByUser(user.id);
+
+                    if (notifications.length === 0) {
+                        listElement.innerHTML = '<div style="padding: 60px; text-align: center; color: var(--slate-400);">Aucune notification pour le moment.</div>';
+                        return;
+                    }
+
+                    listElement.innerHTML = notifications.map(n => `
+                        <div class="notification-item ${n.lue ? '' : 'unread'}" id="notif-${n.id}">
+                            <div class="notification-icon" style="background: ${n.type === 'CONGE_APPROUVE' ? '#DCFCE7' : '#F1F5F9'};">
+                                ${n.type === 'CONGE_APPROUVE' ? '<i class="fas fa-check-circle" style="color: var(--success);"></i>' : '<i class="fas fa-bell"></i>'}
+                            </div>
+                            <div class="notification-content">
+                                <h4 style="font-size: 1rem; margin-bottom: 4px;">${n.titre}</h4>
+                                <p style="color: var(--slate-600); font-size: 0.9rem; margin-bottom: 8px;">${n.message}</p>
+                                <span class="notification-time">${Utils.formatDateTime(n.dateCreation)}</span>
+                            </div>
+                            ${n.lue ? '' : `
+                                <div class="unread-indicator"></div>
+                                <button class="btn" style="padding: 4px 8px; font-size: 0.75rem; background: var(--slate-100);" onclick="markRead(${n.id})"><i class="fas fa-eye"></i> Lu</button>
+                            `}
+                        </div>
+                    `).join('');
+                } catch (e) {
+                    listElement.innerHTML = `<div style="padding: 40px; text-align: center; color: var(--error);">Erreur : ${e.message}</div>`;
+                }
+            }
+
+            markAllBtn.addEventListener('click', async () => {
+                try {
+                    await NotificationAPI.marquerToutesCommeLues(user.id);
+                    Utils.showSuccess("Toutes les notifications ont été marquées comme lues.");
+                    loadNotifications();
+                    NotificationBadge.update();
+                } catch (e) {
+                    Utils.showError(e.message);
+                }
+            });
+
+            window.markRead = async (id) => {
+                try {
+                    await NotificationAPI.marquerCommeLue(id);
+                    loadNotifications();
+                    NotificationBadge.update();
+                } catch (e) {
+                    Utils.showError(e.message);
+                }
+            };
+
+            loadNotifications();
+        });
+    </script>
+</body>
+
+</html>

@@ -16,7 +16,7 @@
         
         <properties>
             <!-- Dialecte MySQL/MariaDB -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDB103Dialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             
             <!-- Afficher les requêtes SQL (développement) -->
             <property name="hibernate.show_sql" value="true"/>

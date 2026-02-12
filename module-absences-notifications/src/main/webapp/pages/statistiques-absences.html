@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques Absences - HR Solide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo"><i class="fas fa-shield-alt"></i> HR • SOLIDE</a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="mes-absences.html">Mes Absences</a>
+            <a href="enregistrer-absence.html" data-role="ADMIN,MANAGER">Enregistrer</a>
+            <a href="notifications.html">Notifications <span id="notification-badge" class="badge badge-error"
+                    style="display:none;"></span></a>
+            <a href="statistiques-absences.html" class="active" data-role="ADMIN,MANAGER">Statistiques</a>
+        </div>
+        <div id="user-info" style="font-weight: 600; color: var(--brand-primary);"></div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>Tableau de bord des absences</h1>
+            <p>Vue d'ensemble et indicateurs de performance RH.</p>
+        </header>
+
+        <div class="bento-grid" style="margin-bottom: 40px;">
+            <div class="card stat-card">
+                <div class="stat-label">Total Absences</div>
+                <div class="stat-value" id="total-global">0</div>
+            </div>
+            <div class="card stat-card">
+                <div class="stat-label">Non Justifiées</div>
+                <div class="stat-value" id="non-justifiees-count" style="color: var(--error);">0</div>
+            </div>
+            <div class="card stat-card">
+                <div class="stat-label">Taux de présence</div>
+                <div class="stat-value">94%</div>
+            </div>
+            <div class="card stat-card">
+                <div class="stat-label">Type Dominant</div>
+                <div class="stat-value" style="font-size: 1.5rem; margin-top: 10px;">MALADIE</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Liste globale des absences</h3>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-outline" style="padding: 8px 16px; font-size: 0.85rem;"
+                        id="filter-non-just">Non justifiées uniquement</button>
+                    <button class="btn btn-outline" style="padding: 8px 16px; font-size: 0.85rem;"
+                        id="filter-reset">Tout afficher</button>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employé</th>
+                            <th>Date Début</th>
+                            <th>Date Fin</th>
+                            <th>Type</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody id="global-absences-list">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 40px;">Chargement...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/absences.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = Utils.getCurrentUser();
+            document.getElementById('user-info').textContent = user.name + " (" + user.role + ")";
+
+            // Protection de la page
+            if (!Utils.requireRole(['ADMIN', 'MANAGER'])) return;
+
+            // Appliquer la sécurité sur le reste
+            Utils.applyRoleSecurity();
+
+            NotificationBadge.init();
+
+            const listElement = document.getElementById('global-absences-list');
+
+            async function loadAbsences(onlyNonJustified = false) {
+                try {
+                    let absences;
+                    if (onlyNonJustified) {
+                        absences = await AbsenceAPI.getNonJustifiees();
+                    } else {
+                        absences = await AbsenceAPI.getAll();
+                    }
+
+                    document.getElementById('total-global').textContent = absences.length;
+
+                    if (absences.length === 0) {
+                        listElement.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">Aucune donnée trouvée.</td></tr>';
+                        return;
+                    }
+
+                    listElement.innerHTML = absences.map(a => `
+                        <tr>
+                            <td><span style="font-weight: 600;">#${a.employeId}</span></td>
+                            <td>${Utils.formatDate(a.dateDebut)}</td>
+                            <td>${Utils.formatDate(a.dateFin)}</td>
+                            <td><span class="badge" style="background: var(--slate-100); color: var(--slate-600);">${a.typeAbsence ? a.typeAbsence.nom : 'N/A'}</span></td>
+                            <td>
+                                ${a.justifiee
+                            ? `<span class="badge badge-success">OK</span>`
+                            : `<span class="badge badge-error">En attente</span>`}
+                            </td>
+                        </tr>
+                    `).join('');
+
+                    // Update non-justified count if we fetched all
+                    if (!onlyNonJustified) {
+                        const nonJust = absences.filter(a => !a.justifiee).length;
+                        document.getElementById('non-justifiees-count').textContent = nonJust;
+                    }
+                } catch (e) {
+                    listElement.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--error); padding: 40px;">Erreur : ${e.message}</td></tr>`;
+                }
+            }
+
+            document.getElementById('filter-non-just').addEventListener('click', () => loadAbsences(true));
+            document.getElementById('filter-reset').addEventListener('click', () => loadAbsences(false));
+
+            loadAbsences();
+        });
+    </script>
+</body>
+
+</html>

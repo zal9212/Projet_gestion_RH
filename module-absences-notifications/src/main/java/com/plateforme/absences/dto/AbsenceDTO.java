@@ -23,13 +23,14 @@ public class AbsenceDTO {
     private Boolean justifiee;
     private String documentJustificatif;
     private Long enregistrePar;
+    private String statut;
     private LocalDateTime dateCreation;
 
     // Constructeurs
     public AbsenceDTO() {
     }
 
-    public AbsenceDTO(Long id, Long employeId, Long typeAbsenceId, String typeAbsenceNom, LocalDate dateAbsence, LocalTime heureDebut, LocalTime heureFin, BigDecimal dureeHeures, String motif, Boolean justifiee, String documentJustificatif, Long enregistrePar, LocalDateTime dateCreation) {
+    public AbsenceDTO(Long id, Long employeId, Long typeAbsenceId, String typeAbsenceNom, LocalDate dateAbsence, LocalTime heureDebut, LocalTime heureFin, BigDecimal dureeHeures, String motif, Boolean justifiee, String documentJustificatif, Long enregistrePar, String statut, LocalDateTime dateCreation) {
         this.id = id;
         this.employeId = employeId;
         this.typeAbsenceId = typeAbsenceId;
@@ -42,6 +43,7 @@ public class AbsenceDTO {
         this.justifiee = justifiee;
         this.documentJustificatif = documentJustificatif;
         this.enregistrePar = enregistrePar;
+        this.statut = statut;
         this.dateCreation = dateCreation;
     }
 
@@ -61,6 +63,7 @@ public class AbsenceDTO {
         this.justifiee = absence.getJustifiee();
         this.documentJustificatif = absence.getDocumentJustificatif();
         this.enregistrePar = absence.getEnregistrePar();
+        this.statut = absence.getStatut();
         this.dateCreation = absence.getDateCreation();
     }
 
@@ -100,6 +103,9 @@ public class AbsenceDTO {
 
     public Long getEnregistrePar() { return enregistrePar; }
     public void setEnregistrePar(Long enregistrePar) { this.enregistrePar = enregistrePar; }
+
+    public String getStatut() { return statut; }
+    public void setStatut(String statut) { this.statut = statut; }
 
     public LocalDateTime getDateCreation() { return dateCreation; }
     public void setDateCreation(LocalDateTime dateCreation) { this.dateCreation = dateCreation; }
