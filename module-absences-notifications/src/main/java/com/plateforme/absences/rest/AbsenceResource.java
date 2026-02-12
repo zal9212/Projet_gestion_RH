@@ -9,8 +9,10 @@ import com.plateforme.absences.services.TypeAbsenceService;
 
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -39,6 +41,9 @@ public class AbsenceResource {
     
     private static final Logger LOGGER = Logger.getLogger(AbsenceResource.class.getName());
     
+    @Context
+    private SecurityContext securityContext;
+
     @EJB
     private AbsenceService absenceService;
     
@@ -52,6 +57,12 @@ public class AbsenceResource {
     @GET
     public Response findAll() {
         LOGGER.info("GET /api/absences");
+
+        if (!securityContext.isUserInRole("MANAGER") && !securityContext.isUserInRole("ADMIN")) {
+            return Response.status(Response.Status.FORBIDDEN)
+                           .entity(ApiResponse.error("Accès refusé : Droits Manager/Admin requis"))
+                           .build();
+        }
         
         try {
             List<Absence> absences = absenceService.findAll();
@@ -133,6 +144,12 @@ public class AbsenceResource {
             @QueryParam("fin") String finStr) {
         
         LOGGER.info("GET /api/absences/periode?debut=" + debutStr + "&fin=" + finStr);
+
+        if (!securityContext.isUserInRole("MANAGER") && !securityContext.isUserInRole("ADMIN")) {
+            return Response.status(Response.Status.FORBIDDEN)
+                           .entity(ApiResponse.error("Accès refusé : Droits Manager/Admin requis"))
+                           .build();
+        }
         
         try {
             // Validation des paramètres
@@ -173,6 +190,12 @@ public class AbsenceResource {
     @Path("/non-justifiees")
     public Response findNonJustifiees() {
         LOGGER.info("GET /api/absences/non-justifiees");
+
+        if (!securityContext.isUserInRole("MANAGER") && !securityContext.isUserInRole("ADMIN")) {
+            return Response.status(Response.Status.FORBIDDEN)
+                           .entity(ApiResponse.error("Accès refusé : Droits Manager/Admin requis"))
+                           .build();
+        }
         
         try {
             List<Absence> absences = absenceService.findNonJustifiees();
@@ -248,6 +271,7 @@ public class AbsenceResource {
             absence.setDureeHeures(dto.getDureeHeures() != null ? dto.getDureeHeures() : BigDecimal.valueOf(8.0));
             absence.setMotif(dto.getMotif());
             absence.setJustifiee(dto.getJustifiee() != null ? dto.getJustifiee() : false);
+            absence.setStatut(dto.getStatut() != null ? dto.getStatut() : "EN_ATTENTE");
             absence.setEnregistrePar(dto.getEnregistrePar());
             
             // Sauvegarder (envoie aussi une notification JMS)

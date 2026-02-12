@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Absences - HR Solide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo"><i class="fas fa-shield-alt"></i> HR • SOLIDE</a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="mes-absences.html" class="active">Mes Absences</a>
+            <a href="enregistrer-absence.html" data-role="ADMIN,MANAGER">Enregistrer</a>
+            <a href="notifications.html">Notifications <span id="notification-badge" class="badge badge-error"
+                    style="display:none;"></span></a>
+            <a href="statistiques-absences.html" data-role="ADMIN,MANAGER">Statistiques</a>
+        </div>
+        <div id="user-info" style="font-weight: 600; color: var(--brand-primary);"></div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1>Mes Absences</h1>
+                <p>Historique et état de vos demandes d'absence.</p>
+            </div>
+            <a href="demande-absence.html" class="btn btn-filled"><i class="fas fa-calendar-plus"></i> Nouvelle
+                demande</a>
+        </header>
+
+        <div class="card">
+            <div class="table-wrapper">
+                <table id="absences-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Statut</th>
+                            <th>Justification</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="absences-list">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 40px;">Chargement des données...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/absences.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = Utils.getCurrentUser();
+            document.getElementById('user-info').textContent = user.name + " (" + user.role + ")";
+
+            // Appliquer la sécurité
+            Utils.applyRoleSecurity();
+
+            NotificationBadge.init();
+
+            const listElement = document.getElementById('absences-list');
+
+            try {
+                const absences = await AbsenceAPI.getByEmploye(user.id);
+
+                if (absences.length === 0) {
+                    listElement.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">Aucune absence enregistrée.</td></tr>';
+                    return;
+                }
+
+                listElement.innerHTML = absences.map(a => {
+                    let statusClass = 'badge-info';
+                    let statusLabel = a.statut || 'EN_ATTENTE';
+
+                    if (statusLabel === 'VALIDE') statusClass = 'badge-success';
+                    else if (statusLabel === 'REJETE') statusClass = 'badge-error';
+                    else statusClass = 'badge-warning'; // Pour EN_ATTENTE
+
+                    return `
+                        <tr>
+                            <td style="font-weight: 600;">${Utils.formatDate(a.dateAbsence)}</td>
+                            <td><span class="badge" style="background: var(--slate-100); color: var(--slate-600);">${a.typeAbsence ? a.typeAbsence.nom : 'N/A'}</span></td>
+                            <td><span class="badge ${statusClass}">${statusLabel}</span></td>
+                            <td>
+                                ${a.justifiee
+                            ? `<span class="badge badge-success">Justifiée</span>`
+                            : `<span class="badge badge-error">Non justifiée</span>`}
+                            </td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;" onclick="justifier(${a.id})">Justifier</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (e) {
+                listElement.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--error); padding: 40px;">Erreur lors du chargement: ${e.message}</td></tr>`;
+            }
+        });
+
+        async function justifier(id) {
+            const path = prompt("Veuillez saisir le chemin du document de justification :");
+            if (path) {
+                try {
+                    await AbsenceAPI.justifier(id, path);
+                    Utils.showSuccess("Absence justifiée avec succès !");
+                    location.reload();
+                } catch (e) {
+                    Utils.showError("Erreur : " + e.message);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

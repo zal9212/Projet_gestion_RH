@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demander une Absence - HR Solide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo"><i class="fas fa-shield-alt"></i> HR • SOLIDE</a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="mes-absences.html">Mes Absences</a>
+            <a href="enregistrer-absence.html" data-role="ADMIN,MANAGER">Enregistrer</a>
+            <a href="notifications.html">Notifications <span id="notification-badge" class="badge badge-error"
+                    style="display:none;"></span></a>
+            <a href="statistiques-absences.html" data-role="ADMIN,MANAGER">Statistiques</a>
+        </div>
+        <div id="user-info" style="font-weight: 600; color: var(--brand-primary);"></div>
+    </nav>
+
+    <div class="container" style="max-width: 800px;">
+        <header class="page-header">
+            <h1>Demander une absence</h1>
+            <p>Soumettez votre demande d'absence pour validation.</p>
+        </header>
+
+        <div class="card">
+            <form id="demande-form">
+                <div class="form-group">
+                    <label for="dateAbsence">Date de l'absence</label>
+                    <input type="date" id="dateAbsence" class="form-control" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label for="heureDebut">Heure de début (Optionnel)</label>
+                        <input type="time" id="heureDebut" class="form-control" value="08:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="heureFin">Heure de fin (Optionnel)</label>
+                        <input type="time" id="heureFin" class="form-control" value="17:00">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="typeAbsenceId">Type d'absence</label>
+                    <select id="typeAbsenceId" class="form-control" required>
+                        <option value="">Chargement des types...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="motif">Motif / Justification</label>
+                    <textarea id="motif" class="form-control" rows="4"
+                        placeholder="Expliquez la raison de votre absence..." required></textarea>
+                </div>
+
+                <div style="display: flex; gap: 16px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-filled" style="flex: 1;"><i class="fas fa-paper-plane"></i>
+                        Soumettre la demande</button>
+                    <a href="mes-absences.html" class="btn btn-outline" style="flex: 1;">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/absences.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = Utils.getCurrentUser();
+            document.getElementById('user-info').textContent = user.name + " (" + user.role + ")";
+
+            // Appliquer la sécurité sur les éléments
+            Utils.applyRoleSecurity();
+
+            NotificationBadge.init();
+
+            // Charger les types d'absences
+            try {
+                const types = await TypeAbsenceAPI.getAll();
+                const select = document.getElementById('typeAbsenceId');
+                select.innerHTML = '<option value="">Sélectionnez un type</option>' +
+                    types.map(t => `<option value="${t.id}">${t.nom}</option>`).join('');
+            } catch (e) {
+                console.error(e);
+                Utils.showError("Impossible de charger les types d'absence.");
+            }
+
+            // Gérer la soumission
+            document.getElementById('demande-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const absenceData = {
+                    employeId: parseInt(user.id),
+                    dateAbsence: document.getElementById('dateAbsence').value,
+                    heureDebut: document.getElementById('heureDebut').value ? document.getElementById('heureDebut').value + ":00" : null,
+                    heureFin: document.getElementById('heureFin').value ? document.getElementById('heureFin').value + ":00" : null,
+                    typeAbsenceId: parseInt(document.getElementById('typeAbsenceId').value),
+                    motif: document.getElementById('motif').value,
+                    statut: 'EN_ATTENTE',
+                    justifiee: false
+                };
+
+                try {
+                    await AbsenceAPI.create(absenceData);
+                    Utils.showSuccess("Votre demande a été soumise avec succès !");
+                    setTimeout(() => window.location.href = 'mes-absences.html', 1500);
+                } catch (err) {
+                    Utils.showError("Erreur : " + err.message);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

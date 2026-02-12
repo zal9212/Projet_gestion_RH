@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Absences & Notifications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo"><i class="fas fa-shield-alt"></i> HR • SOLIDE</a>
+        <div class="nav-links">
+            <a href="index.html" class="active">Accueil</a>
+            <a href="mes-absences.html">Mes Absences</a>
+            <a href="enregistrer-absence.html" data-role="ADMIN,MANAGER">Enregistrer</a>
+            <a href="notifications.html">Notifications <span id="notification-badge" class="badge badge-error"
+                    style="display:none;"></span></a>
+            <a href="statistiques-absences.html" data-role="ADMIN,MANAGER">Statistiques</a>
+        </div>
+        <div id="user-info" style="font-weight: 600; color: var(--brand-primary);"></div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>Bienvenue, <span id="welcome-name">Employé</span></h1>
+            <p>Gérez vos absences et restez informé de vos notifications en temps réel.</p>
+        </header>
+
+        <div class="bento-grid">
+            <div class="card stat-card" style="grid-column: span 2; background: var(--brand-primary); color: white;">
+                <div class="stat-label" style="color: rgba(255,255,255,0.8);">Total Absences (2026)</div>
+                <div class="stat-value" id="total-absences" style="color: white;">0</div>
+                <p style="margin-top: 10px; opacity: 0.9;">Consultez le détail de vos absences pour l'année en cours.
+                </p>
+                <a href="mes-absences.html" class="btn btn-outline"
+                    style="margin-top: 20px; align-self: flex-start; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">Voir
+                    détails</a>
+            </div>
+
+            <div class="card stat-card">
+                <div class="stat-label">Notifications non lues</div>
+                <div class="stat-value" id="unread-count">0</div>
+                <a href="notifications.html" class="btn btn-filled" style="margin-top: auto;">Ouvrir le centre</a>
+            </div>
+
+            <div class="card stat-card">
+                <div class="stat-label">Statut Actuel</div>
+                <div class="stat-value" style="font-size: 1.5rem; margin: 10px 0;">PRÉSENT</div>
+                <div class="badge badge-success" style="align-self: flex-start;">En poste</div>
+            </div>
+
+            <div class="card" style="grid-column: span 3; background: var(--slate-100);" data-role="ADMIN,MANAGER">
+                <h3>Raccourcis rapides</h3>
+                <div style="display: flex; gap: 16px; margin-top: 20px;">
+                    <a href="enregistrer-absence.html" class="btn btn-filled"><i class="fas fa-plus-circle"></i>
+                        Enregistrer une absence</a>
+                    <a href="statistiques-absences.html" class="btn btn-outline"><i class="fas fa-chart-pie"></i> Voir
+                        les statistiques</a>
+                </div>
+            </div>
+
+            <div class="card"
+                style="grid-column: span 1; display: flex; align-items: center; justify-content: center; text-align: center;">
+                <div>
+                    <h4 style="margin-bottom: 10px;">Aide</h4>
+                    <p style="font-size: 0.85rem; color: var(--slate-600);">Besoin d'assistance ? Contactez le support
+                        RH.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/absences.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = Utils.getCurrentUser();
+            document.getElementById('welcome-name').textContent = user.name;
+            document.getElementById('user-info').textContent = user.name + " (" + user.role + ")";
+
+            // Appliquer la sécurité sur les éléments
+            Utils.applyRoleSecurity();
+
+            // Initialiser le badge
+            NotificationBadge.init();
+
+            // Charger les stats rapides
+            try {
+                const absences = await AbsenceAPI.getByEmploye(user.id);
+                document.getElementById('total-absences').textContent = absences.length;
+
+                const count = await NotificationAPI.countNonLues(user.id);
+                document.getElementById('unread-count').textContent = count;
+            } catch (e) {
+                console.error(e);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -61,6 +61,9 @@ public class Absence implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String motif;
     
+    @Column(length = 20)
+    private String statut = "EN_ATTENTE";
+    
     @Column(nullable = false)
     private Boolean justifiee = false;
     
@@ -138,6 +141,9 @@ public class Absence implements Serializable {
 
     public Long getEnregistrePar() { return enregistrePar; }
     public void setEnregistrePar(Long enregistrePar) { this.enregistrePar = enregistrePar; }
+
+    public String getStatut() { return statut; }
+    public void setStatut(String statut) { this.statut = statut; }
 
     public LocalDateTime getDateCreation() { return dateCreation; }
     public void setDateCreation(LocalDateTime dateCreation) { this.dateCreation = dateCreation; }
