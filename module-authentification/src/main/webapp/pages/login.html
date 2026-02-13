@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - HR • SOLIDE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-primary) 100%);
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header .logo {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .login-header h1 {
+            font-size: 1.5rem;
+            color: var(--brand-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card login-card">
+        <div class="login-header">
+            <a href="#" class="logo"><i class="fas fa-shield-alt"></i> HR • SOLIDE</a>
+            <h1>Authentification</h1>
+            <p style="color: var(--slate-600); font-size: 0.9rem;">Entrez vos identifiants pour accéder à la plateforme.</p>
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" class="form-control" placeholder="admin" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-filled" style="width: 100%; margin-top: 10px;">
+                Se connecter <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/security-interceptor.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const success = await AuthAPI.login(username, password);
+                if (success) {
+                    Utils.showSuccess("Connexion réussie ! Redirection...");
+                    setTimeout(() => {
+                        window.location.href = 'mon-profil.html';
+                    }, 1000);
+                }
+            } catch (error) {
+                Utils.showError(error.message);
+            }
+        });
+
+        // Supprimer le token si on arrive sur la page de login
+        localStorage.removeItem(CONFIG.STORAGE_KEYS.TOKEN);
+    </script>
+</body>
+
+</html>
